@@ -1,6 +1,7 @@
 import { log } from 'utils';
 import { createStore } from 'redux';
 import SortedMap from 'collections/sorted-map';
+import { chatBot } from '../utils/ChatBot.js';
 
 const DEFAULT_STATE = {
 	connection: 'closed',
@@ -94,12 +95,24 @@ function update(state = DEFAULT_STATE, action) {
 				case 'chat.wait_queue':
 				case 'chat.request.rating':
 				case 'chat.msg':
+					let chat = {
+						...action.detail,
+						...member(state, action.detail)
+					}
+					let timestamp = Date.now();
 					new_state.chats = state.chats.concat({
-						[Date.now()]: {
-							...action.detail,
-							...member(state, action.detail)
-						}
+						[timestamp]: chat
 					});
+
+					// Handle chat message by bot first.
+					let botResponse = chatBot.response(chat);
+					if (botResponse) {
+						console.info('Appending bot response')
+						new_state.chats = new_state.chats.concat({
+							[timestamp + 1]: botResponse
+						});
+					}
+
 					return new_state;
 				case 'typing':
 					return {
@@ -127,10 +140,10 @@ function member(state, detail) {
 		display_name = detail.display_name;
 	if (isAgent(nick)) {
 		const trigger_agent = {
-	      nick: nick,
-	      display_name: display_name,
-	      avatar_path: ''
-	    };
+				nick: nick,
+				display_name: display_name,
+				avatar_path: ''
+			};
 		return {
 			...(state.agents[nick] ? state.agents[nick] : trigger_agent),
 			member_type: 'agent'
