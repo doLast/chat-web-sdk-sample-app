@@ -27,12 +27,12 @@ def ruleTemplate(content, options, conditionString, name, description, parentInd
 			if parentIndex:
 				optionsWithIndex.append("({parentIndex}.{currentIndex}) {title}".format(
 					parentIndex=parentIndex,
-					currentIndex=i+1,
+					currentIndex=i + 1,
 					title=options[i]
 				))
 			else:
 				optionsWithIndex.append("({currentIndex}) {title}".format(
-					currentIndex=i+1,
+					currentIndex=i + 1,
 					title=options[i]
 				))
 
@@ -85,7 +85,7 @@ def parseRule(rule, parentRule, parentRuleIndex):
 	parsedRules.append(ruleTemplate(content, options, conditionString, name, description, parentIndex=parentRuleIndex))
 	for i in xrange(len(rule.get(RULE_SUBRULE, []))):
 		subRule = rule[RULE_SUBRULE][i]
-		parsedRules += parseRule(subRule, rule, "{}.{}".format(parentRuleIndex, i+1) if parentRuleIndex else "{}".format(i+1))
+		parsedRules += parseRule(subRule, rule, "{}.{}".format(parentRuleIndex, i + 1) if parentRuleIndex else "{}".format(i + 1))
 
 	return parsedRules
 
@@ -102,25 +102,20 @@ def parseRuleFile(filename='rule.json'):
 
 rules = parseRuleFile()
 
-def submit(rules):
+def submit(newTriggers):
 	headers = {
 		'Authorization': 'Basic Z3dhbmcrMjI0MzIzODUzODdAemVuZWZpdHMuY29tOmdQZE5WeEI5VyNtMjk+bS8=',
 	}
 	r = requests.get('https://www.zopim.com/api/v2/triggers', headers=headers)
-	triggers = r.json()
-	triggersMapping = {
-		t['name']: t for t in triggers
-	}
-
-	# newTriggers = getAllTriggers()
-	newTriggers = rules
+	oldTriggers = r.json()
+	for t in oldTriggers:
+		print 'deleting', t['name']
+		r = requests.delete('https://www.zopim.com/api/v2/triggers/{}'.format(t['name']), headers=headers)
+		print r
 
 	for t in newTriggers:
-		print t
-		if t['name'] in triggersMapping:
-			r = requests.put('https://www.zopim.com/api/v2/triggers/{}'.format(t['name']), json=t)
-		else:
-			r = requests.post('https://www.zopim.com/api/v2/triggers', json=t)
+		print 'adding', t
+		r = requests.post('https://www.zopim.com/api/v2/triggers', json=t, headers=headers)
 		print r
 
 rules = parseRuleFile()
