@@ -2,10 +2,25 @@ import json
 import requests
 
 RULE_KEY_NAME = "key_name"
+RULE_TITLE = "title"
 RULE_CONTENT = "content"
 RULE_SUBRULE = "subsections"
 
-def ruleTemplate(content, options, conditionString, name, description, parentIndex=None):
+def ruleTemplate(content, options, conditionString, name, description, parentIndex=None, rootNode=False):
+	if rootNode:
+		condition = [
+			"eq",
+			"@visitor_requesting_chat",
+			True
+		]
+
+	else:
+		condition = [
+			"icontains",
+			"@message",
+			conditionString
+		]
+
 	if options:
 		optionsWithIndex = []
 		for i in xrange(len(options)):
@@ -39,17 +54,11 @@ def ruleTemplate(content, options, conditionString, name, description, parentInd
 			"actions": [
 				action
 			],
-			"version": 1,
 			"event": "chat_message",
 			"condition": [
 				"or",
-				[
-					"icontains",
-					"@message",
-					conditionString
-				]
-			],
-			"editor": "developer"
+				condition
+			]
 		},
 		"enabled": True,
 		"description": description,
@@ -57,17 +66,26 @@ def ruleTemplate(content, options, conditionString, name, description, parentInd
 	}
 
 
+def _getRuleKey(rule):
+	if RULE_KEY_NAME in rule:
+		return rule[RULE_KEY_NAME]
+	else:
+		return rule[RULE_TITLE]
+
 def parseRule(rule, parentRule, parentRuleIndex):
 	content = rule[RULE_CONTENT]
-	options = [subrule[RULE_KEY_NAME] for subrule in rule[RULE_SUBRULE]] if RULE_SUBRULE in rule else []
-	conditionString = rule[RULE_KEY_NAME]
-	name = rule[RULE_KEY_NAME]
+	options = [_getRuleKey(subrule) for subrule in rule[RULE_SUBRULE]] if RULE_SUBRULE in rule else []
+	conditionString = _getRuleKey(rule) if not parentRuleIndex else "({}) {}".format(parentRuleIndex, _getRuleKey(rule))
+	name = _getRuleKey(rule)
 	description = rule[RULE_CONTENT]
 	parsedRules = []
+	if not parentRuleIndex:
+		parsedRules.append(ruleTemplate(content, options, conditionString, name, description, parentIndex=parentRuleIndex, rootNode=True))
+
 	parsedRules.append(ruleTemplate(content, options, conditionString, name, description, parentIndex=parentRuleIndex))
 	for i in xrange(len(rule.get(RULE_SUBRULE, []))):
 		subRule = rule[RULE_SUBRULE][i]
-		parsedRules+=parseRule(subRule, rule, "{}.{}".format(parentRuleIndex, i+1) if parentRuleIndex else "{}".format(i+1))
+		parsedRules += parseRule(subRule, rule, "{}.{}".format(parentRuleIndex, i+1) if parentRuleIndex else "{}".format(i+1))
 
 	return parsedRules
 
@@ -106,4 +124,6 @@ def submit(rules):
 		print r
 
 rules = parseRuleFile()
-submit(rules)
+for rule in rules:
+	print rule['definition']['condition'][1][2]
+# submit(rules)

@@ -1,70 +1,71 @@
 [
 	{
-		"key_name": "Welcome to Zenefits",
+		"key_name": "help",
+		"title": "Welcome to Zenefits",
 		"content": "Can I help you with any of the following features of zenefits?",
 		"subsections": [
 			{
-				"key_name": "Pre-Sale",
+				"title": "Pre-Sale",
 				"content": "Demo Blah Blah",
 				"subsections": [
 					{
-						"key_name": "Request Demo",
+						"title": "Request Demo",
 						"content": "Demo Blah Blah"
 					},
 					{
-						"key_name": "Pricing",
+						"title": "Pricing",
 						"content": "We charge $15 a month"
 					}
 				]
 			},
 			{
-				"key_name": "Benefits",
+				"title": "Benefits",
 				"content": "Zenefits Support variety of benefits",
 				"subsections": [
 					{
-						"key_name": "MDV",
+						"title": "MDV",
 						"content": "MDV Blah Blah"
 					},
 					{
-						"key_name": "L&D",
+						"title": "L&D",
 						"content": "Life & Disability is important"
 					},
 					{
-						"key_name": "COBRA",
+						"title": "COBRA",
 						"content": "Cover them even after their leaving"
 					},
 					{
-						"key_name": "HSA&FSA",
+						"title": "HSA&FSA",
 						"content": "Flexible account"
 					},
 					{
-						"key_name": "Commuter Benefits",
+						"title": "Commuter Benefits",
 						"content": "We are supporting Lyft now"
 					},
 					{
-						"key_name": "Ben Admin",
+						"title": "Ben Admin",
 						"content": "It's okay if you want to keep your own broker"
 					}
 				]
 			},
 			{
-				"key_name": "HR Management",
+				"title": "HR Management",
 				"content": "After all Zenefits is a HR Management Service",
 				"subsections": [
 					{
-						"key_name": "Hiring",
+						"title": "Hiring",
 						"content": "Hire good helper"
 					},
 					{
-						"key_name": "Termination",
+						"title": "Termination",
 						"content": "Sad to see you go :( "
 					},
 					{
-						"key_name": "T&A",
+						"title": "T&A",
 						"content": "Tracking time and attandence"
 					},
 					{
-						"key_name": "PTO",
+						"title": "PTO",
 						"content": "Paid-Time Off is good for restoring energy"
 					}
 				]
