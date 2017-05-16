@@ -84,7 +84,7 @@ def parseRuleFile(filename='rule.json'):
 
 rules = parseRuleFile()
 
-def submit(rules):
+def submit(newTriggers):
 	headers = {
 		'Authorization': 'Basic Z3dhbmcrMjI0MzIzODUzODdAemVuZWZpdHMuY29tOmdQZE5WeEI5VyNtMjk+bS8=',
 	}
@@ -93,16 +93,24 @@ def submit(rules):
 	triggersMapping = {
 		t['name']: t for t in triggers
 	}
+	newTriggersMapping = {
+		t['name']: t for t in newTriggers
+	}
 
-	# newTriggers = getAllTriggers()
-	newTriggers = rules
+	triggersToBeDeleted = set(triggersMapping.keys()) - set(newTriggersMapping.keys())
+	print triggersToBeDeleted
 
 	for t in newTriggers:
-		print t
+		print 'adding', t
 		if t['name'] in triggersMapping:
-			r = requests.put('https://www.zopim.com/api/v2/triggers/{}'.format(t['name']), json=t)
+			r = requests.put('https://www.zopim.com/api/v2/triggers/{}'.format(t['name']), json=t, headers=headers)
 		else:
-			r = requests.post('https://www.zopim.com/api/v2/triggers', json=t)
+			r = requests.post('https://www.zopim.com/api/v2/triggers', json=t, headers=headers)
+		print r
+
+	for tName in triggersToBeDeleted:
+		print 'deleting', tName
+		r = requests.delete('https://www.zopim.com/api/v2/triggers/{}'.format(tName), headers=headers)
 		print r
 
 rules = parseRuleFile()
