@@ -12,12 +12,12 @@ def ruleTemplate(content, options, conditionString, name, description, parentInd
 			if parentIndex:
 				optionsWithIndex.append("({parentIndex}.{currentIndex}) {title}".format(
 					parentIndex=parentIndex,
-					currentIndex=i+1,
+					currentIndex=i + 1,
 					title=options[i]
 				))
 			else:
 				optionsWithIndex.append("({currentIndex}) {title}".format(
-					currentIndex=i+1,
+					currentIndex=i + 1,
 					title=options[i]
 				))
 
@@ -39,7 +39,6 @@ def ruleTemplate(content, options, conditionString, name, description, parentInd
 			"actions": [
 				action
 			],
-			"version": 1,
 			"event": "chat_message",
 			"condition": [
 				"or",
@@ -49,7 +48,6 @@ def ruleTemplate(content, options, conditionString, name, description, parentInd
 					conditionString
 				]
 			],
-			"editor": "developer"
 		},
 		"enabled": True,
 		"description": description,
@@ -67,7 +65,7 @@ def parseRule(rule, parentRule, parentRuleIndex):
 	parsedRules.append(ruleTemplate(content, options, conditionString, name, description, parentIndex=parentRuleIndex))
 	for i in xrange(len(rule.get(RULE_SUBRULE, []))):
 		subRule = rule[RULE_SUBRULE][i]
-		parsedRules+=parseRule(subRule, rule, "{}.{}".format(parentRuleIndex, i+1) if parentRuleIndex else "{}".format(i+1))
+		parsedRules += parseRule(subRule, rule, "{}.{}".format(parentRuleIndex, i + 1) if parentRuleIndex else "{}".format(i + 1))
 
 	return parsedRules
 
@@ -89,28 +87,15 @@ def submit(newTriggers):
 		'Authorization': 'Basic Z3dhbmcrMjI0MzIzODUzODdAemVuZWZpdHMuY29tOmdQZE5WeEI5VyNtMjk+bS8=',
 	}
 	r = requests.get('https://www.zopim.com/api/v2/triggers', headers=headers)
-	triggers = r.json()
-	triggersMapping = {
-		t['name']: t for t in triggers
-	}
-	newTriggersMapping = {
-		t['name']: t for t in newTriggers
-	}
-
-	triggersToBeDeleted = set(triggersMapping.keys()) - set(newTriggersMapping.keys())
-	print triggersToBeDeleted
+	oldTriggers = r.json()
+	for t in oldTriggers:
+		print 'deleting', t['name']
+		r = requests.delete('https://www.zopim.com/api/v2/triggers/{}'.format(t['name']), headers=headers)
+		print r
 
 	for t in newTriggers:
 		print 'adding', t
-		if t['name'] in triggersMapping:
-			r = requests.put('https://www.zopim.com/api/v2/triggers/{}'.format(t['name']), json=t, headers=headers)
-		else:
-			r = requests.post('https://www.zopim.com/api/v2/triggers', json=t, headers=headers)
-		print r
-
-	for tName in triggersToBeDeleted:
-		print 'deleting', tName
-		r = requests.delete('https://www.zopim.com/api/v2/triggers/{}'.format(tName), headers=headers)
+		r = requests.post('https://www.zopim.com/api/v2/triggers', json=t, headers=headers)
 		print r
 
 rules = parseRuleFile()
