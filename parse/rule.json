@@ -1,75 +1,163 @@
-[
-	{
-		"key_name": "help",
-		"title": "Welcome to Zenefits",
-		"content": "Can I help you with any of the following features of zenefits?",
-		"subsections": [
-			{
-				"title": "Pre-Sale",
-				"content": "Demo Blah Blah",
-				"subsections": [
-					{
-						"title": "Request Demo",
-						"content": "Demo Blah Blah"
-					},
-					{
-						"title": "Pricing",
-						"content": "We charge $15 a month"
-					}
-				]
-			},
-			{
-				"title": "Benefits",
-				"content": "Zenefits Support variety of benefits",
-				"subsections": [
-					{
-						"title": "MDV",
-						"content": "MDV Blah Blah"
-					},
-					{
-						"title": "L&D",
-						"content": "Life & Disability is important"
-					},
-					{
-						"title": "COBRA",
-						"content": "Cover them even after their leaving"
-					},
-					{
-						"title": "HSA&FSA",
-						"content": "Flexible account"
-					},
-					{
-						"title": "Commuter Benefits",
-						"content": "We are supporting Lyft now"
-					},
-					{
-						"title": "Ben Admin",
-						"content": "It's okay if you want to keep your own broker"
-					}
-				]
-			},
-			{
-				"title": "HR Management",
-				"content": "After all Zenefits is a HR Management Service",
-				"subsections": [
-					{
-						"title": "Hiring",
-						"content": "Hire good helper"
-					},
-					{
-						"title": "Termination",
-						"content": "Sad to see you go :( "
-					},
-					{
-						"title": "T&A",
-						"content": "Tracking time and attandence"
-					},
-					{
-						"title": "PTO",
-						"content": "Paid-Time Off is good for restoring energy"
-					}
-				]
-			}
-		]
-	}
-]
+{
+	"departmentRules": [
+		{
+			"tag": "presale",
+			"departmentId": 1817723129,
+			"departmentName": "PreSale"
+		},
+		{
+			"tag": "benefits",
+			"departmentId": 1817723123,
+			"departmentName": "Benefits"
+		},
+		{
+			"tag": "hrone",
+			"departmentId": 1817723127,
+			"departmentName": "HROne"
+		},
+		{
+			"tag": "payroll",
+			"departmentId": 1817723125,
+			"departmentName": "Payroll"
+		},
+		{
+			"tag": "inquiry",
+			"departmentId": 1817723131,
+			"departmentName": "GeneralInquiry"
+		}
+	],
+	"messageRules": [
+		{
+			"key_name": "help",
+			"title": "Welcome to Zenefits",
+			"content": "Can I help you with any of the following features of zenefits? You can get back to this menu by typing 'help' anytime during the chat. Or, want to talk to an agent? try 'agent'",
+			"subsections": [
+				{
+					"title": "Pre-Sale",
+					"content": "Demo Blah Blah",
+					"subsections": [
+						{
+							"title": "Request Demo",
+							"content": "Demo Blah Blah",
+							"tags": ["request_demo"]
+						},
+						{
+							"title": "Pricing",
+							"content": "We charge $15 a month",
+							"tags": ["pricing"]
+						}
+					],
+					"tags": ["presale"]
+				},
+				{
+					"title": "Benefits",
+					"content": "Zenefits Support variety of benefits",
+					"subsections": [
+						{
+							"title": "MDV",
+							"content": "MDV Blah Blah",
+							"tags": ["mdv"]
+						},
+						{
+							"title": "L&D",
+							"content": "Life & Disability is important",
+							"tags": ["lnd"]
+						},
+						{
+							"title": "COBRA",
+							"content": "Cover them even after their leaving",
+							"tags": ["cobra"]
+						},
+						{
+							"title": "HSA&FSA",
+							"content": "Flexible account",
+							"tags": ["hsafsa"]
+						},
+						{
+							"title": "Commuter Benefits",
+							"content": "We are supporting Lyft now",
+							"tags": ["commuter"]
+						},
+						{
+							"title": "Ben Admin",
+							"content": "It's okay if you want to keep your own broker",
+							"tags": ["benadmin"]
+						}
+					],
+					"tags": ["benefits"]
+				},
+				{
+					"title": "HR Management",
+					"content": "After all Zenefits is a HR Management Service",
+					"subsections": [
+						{
+							"title": "Hiring",
+							"content": "Hire good helper",
+							"tags": ["hiring"]
+						},
+						{
+							"title": "Termination",
+							"content": "Sad to see people go :( ",
+							"tags": ["termination"]
+						},
+						{
+							"title": "T&A",
+							"content": "Tracking time and attandence",
+							"tags": ["tna"]
+						},
+						{
+							"title": "PTO",
+							"content": "Paid-Time Off is good for restoring energy",
+							"tags": ["pto"]
+						}
+					],
+					"tags": ["hrone"]
+				},
+				{
+					"title": "Payroll",
+					"content": "Always Pay Your People",
+					"subsections": [
+						{
+							"title": "Deductions",
+							"content": "Hire good helper",
+							"tags": ["deductions"]
+						},
+						{
+							"title": "Tax",
+							"content": "Use Zen PYP, file tax easily",
+							"tags": ["tax"]
+						},
+						{
+							"title": "Zenefits PYP",
+							"content": "Try new Zenefits Payroll product PYP, All-in-one experience makes life easier",
+							"tags": ["pyp"]
+						},
+						{
+							"title": "Payroll Sync",
+							"content": "Have your own payroll provider? No problem! Zenefits provide payroll sync.",
+							"tags": ["paysync"]
+						}
+					],
+					"tags": ["payroll"]
+				},
+				{
+					"title": "General Inquiry",
+					"content": "Anything you need to know?",
+					"subsections": [
+						{
+							"title": "Account",
+							"content": "Anything wrong with your account login? Talk to our tech support to unblock you in no time!",
+							"tags": ["account"]
+						},
+						{
+							"title": "Billing",
+							"content": "Lets correct it up! Talk to one of our agent to set things straight",
+							"tags": ["billing"]
+						}
+					],
+					"tags": ["inquiry"]
+				}
+			]
+		}
+	]
+}
