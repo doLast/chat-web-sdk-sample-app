@@ -127,11 +127,6 @@ def ruleTemplate(content, options, conditionString, name, description, tags=[], 
 				"eq",
 				"@message",
 				conditionString
-			],
-			[
-				"eq",
-				"@sender_type",
-				"visitor"
 			]
 		]
 
