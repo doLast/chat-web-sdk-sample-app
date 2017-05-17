@@ -16,9 +16,11 @@ def generalDepartRule(rules):
 			"agent"
 		],
 		[
-			"eq",
-			"@sender_type",
-			"visitor"
+			"not",
+			[
+				"hasTag",
+				"agent"
+			]
 		]
 	]
 	for rule in rules:
@@ -38,6 +40,10 @@ def generalDepartRule(rules):
 				[
 					"setDepartment",
 					1817723131
+				],
+				[
+					"addTag",
+					"agent"
 				],
 				[
 					"sendMessageToVisitor",
@@ -63,19 +69,25 @@ def parseDepartmentRule(rule):
 					"agent"
 				],
 				[
-					"eq",
-					"@sender_type",
-					"visitor"
-				],
-				[
 					"hasTag",
 					rule['tag']
+				],
+				[
+					"not",
+					[
+						"hasTag",
+						"agent"
+					]
 				]
 			],
 			"actions": [
 				[
 					"setDepartment",
 					rule['departmentId']
+				],
+				[
+					"addTag",
+					"agent"
 				],
 				[
 					"sendMessageToVisitor",
@@ -95,23 +107,15 @@ def ruleTemplate(content, options, conditionString, name, description, tags=[], 
 		condition = [
 			"and",
 			[
-				"or",
-				[
-					"eq",
-					"@visitor_requesting_chat",
-					True
-				]
+				"eq",
+				"@visitor_requesting_chat",
+				True
 			],
 			[
 				"not",
 				[
 					"firedBefore"
 				]
-			],
-			[
-				"eq",
-				"@sender_type",
-				"visitor"
 			]
 		]
 
