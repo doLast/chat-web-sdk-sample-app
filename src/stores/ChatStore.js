@@ -105,9 +105,9 @@ function update(state = DEFAULT_STATE, action) {
 					});
 
 					// Handle chat message by bot first.
-					let botResponse = chatBot.response(chat);
+					let botResponse = null;
+					// let botResponse = chatBot.response(chat);
 					if (botResponse) {
-						console.info('Appending bot response')
 						new_state.chats = new_state.chats.concat({
 							[timestamp + 1]: botResponse
 						});
